@@ -6,9 +6,18 @@
     xmlns:local="clr-namespace:MiPrimeraApp"
     Title="MiPrimeraApp">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+    <!-- TabBar con dos pestañas -->
+    <TabBar>
+        <ShellContent
+            Title="Inicio"
+            Icon="dotnet_bot.png"
+            ContentTemplate="{DataTemplate local:MainPage}"
+            Route="MainPage" />
+
+        <ShellContent
+            Title="Frutas"
+            ContentTemplate="{DataTemplate local:FrutasPage}"
+            Route="FrutasPage" />
+    </TabBar>
 
 </Shell>

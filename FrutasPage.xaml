@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MiPrimeraApp.FrutasPage"
+             Title="Lista de Frutas"
+             BackgroundColor="White">
+
+    <Grid RowDefinitions="Auto,*" Padding="0">
+
+        <!-- Header -->
+        <VerticalStackLayout Grid.Row="0" Padding="20,20,20,10" Spacing="6" BackgroundColor="#512BD4">
+            <Label Text="🍓 Lista de Frutas" FontSize="24" FontAttributes="Bold" TextColor="White" HorizontalOptions="Center"/>
+            <Label Text="Toca una fruta para ver su descripción" FontSize="14" TextColor="White" Opacity="0.85" HorizontalOptions="Center"/>
+        </VerticalStackLayout>
+
+        <!-- Lista -->
+        <CollectionView Grid.Row="1"
+                        x:Name="frutasCollection"
+                        SelectionMode="Single"
+                        SelectionChanged="OnFrutaSeleccionada"
+                        Margin="12">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame Padding="14" Margin="0,6" CornerRadius="14" HasShadow="True" BorderColor="#E0E0E0" BackgroundColor="White">
+                        <Grid ColumnDefinitions="60,*" RowDefinitions="Auto,Auto" ColumnSpacing="14">
+                            <!-- Emoji / Icono -->
+                            <Frame Grid.RowSpan="2" Grid.Column="0"
+                                   WidthRequest="56" HeightRequest="56"
+                                   CornerRadius="28" Padding="0"
+                                   HasShadow="False"
+                                   BorderColor="Transparent"
+                                   BackgroundColor="{Binding ColorHex}"
+                                   HorizontalOptions="Center" VerticalOptions="Center">
+                                <Label Text="{Binding Emoji}" FontSize="28" HorizontalOptions="Center" VerticalOptions="Center"/>
+                            </Frame>
+
+                            <!-- Nombre -->
+                            <Label Grid.Row="0" Grid.Column="1"
+                                   Text="{Binding Nombre}"
+                                   FontSize="18" FontAttributes="Bold"
+                                   TextColor="#212121" VerticalOptions="End"/>
+
+                            <!-- Descripción -->
+                            <Label Grid.Row="1" Grid.Column="1"
+                                   Text="{Binding Descripcion}"
+                                   FontSize="13" TextColor="#616161"
+                                   LineHeight="1.2" MaxLines="3" LineBreakMode="TailTruncation"/>
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+            <CollectionView.EmptyView>
+                <VerticalStackLayout Padding="40" Spacing="10" VerticalOptions="Center" HorizontalOptions="Center">
+                    <Label Text="No hay frutas" FontSize="18" TextColor="#9E9E9E" HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+        </CollectionView>
+
+    </Grid>
+</ContentPage>

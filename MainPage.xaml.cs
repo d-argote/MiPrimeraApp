@@ -17,4 +17,10 @@ public partial class MainPage : ContentPage
  
         saludoLabel.Text = $"¡Hola, {nombreEntry.Text}!";
     }
+
+    private async void OnVerFrutasClicked(object sender, EventArgs e)
+    {
+        // Navegación a la segunda pantalla (lista de frutas) - cambia al tab Frutas
+        await Shell.Current.GoToAsync("//FrutasPage");
+    }
 }

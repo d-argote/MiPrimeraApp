@@ -11,7 +11,7 @@ public partial class App : Application
 	{
 		try
 		{
-			return new Window(new MainPage());
+			return new Window(new AppShell());
 		}
 		catch (Exception ex)
 		{

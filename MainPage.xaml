@@ -6,7 +6,7 @@
     <VerticalStackLayout Padding="20"
             VerticalOptions="Center"
             Spacing="20">
-        <Label Text="¡Bienvenid@!"
+        <Label Text="¡Bienvenid@ PRUEBA!"
                 FontSize="32"
                 HorizontalOptions="Center"
                 TextColor="Black"/>

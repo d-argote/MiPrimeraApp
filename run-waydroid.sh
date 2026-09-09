@@ -26,6 +26,12 @@ start_session() {
   echo "✗ La sesión de Waydroid no terminó de arrancar."; return 1
 }
 
+# Arranca la sesión sólo si no está ya corriendo.
+ensure_session() {
+  waydroid status 2>/dev/null | grep -q "Session:.*RUNNING" && return 0
+  start_session
+}
+
 # Verificación sin root: en multi_windows cada app es una ventana propia de
 # Hyprland con class waydroid.<paquete>. Es la única señal fiable de que
 # realmente arrancó (`waydroid app launch` devuelve 0 aunque no haga nada).
@@ -44,7 +50,7 @@ try_launch() {
 }
 
 launch_app() {
-  waydroid status 2>/dev/null | grep -q "Session:.*RUNNING" || start_session || return 1
+  ensure_session || return 1
   app_window_up && { echo "✓ Ya estaba abierta."; return 0; }
   try_launch && return 0
   echo "→ La sesión no respondió; reiniciándola y reintentando..."
@@ -71,7 +77,7 @@ dotnet publish -f net10.0-android -c Release \
 
 [[ -f "$APK" ]] || { echo "✗ No se generó el APK: $APK"; exit 1; }
 
-ensure_session
+ensure_session || exit 1
 
 # `waydroid app install` falla EN SILENCIO (rc=0, sin instalar nada) si el
 # servicio "package" del contenedor está caído. Instalamos por `pm install`

@@ -1,37 +1,34 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MiPrimeraApp.MainPage">
- 
-    <ScrollView>
-        <VerticalStackLayout
-            Padding="30,0"
-            Spacing="20"
-            VerticalOptions="Center">
- 
-            <Label
-                Text="¡Bienvenido!"
-                FontSize="28"
-                HorizontalOptions="Center" />
- 
-            <Label
-                x:Name="saludoLabel"
+             x:Class="MiPrimeraApp.MainPage"
+             BackgroundColor="White">
+    <VerticalStackLayout Padding="20"
+            VerticalOptions="Center"
+            Spacing="20">
+        <Label Text="¡Bienvenid@!"
+                FontSize="32"
+                HorizontalOptions="Center"
+                TextColor="Black"/>
+        <Label x:Name="saludoLabel"
                 Text="Escribe tu nombre y presiona el botón"
                 FontSize="16"
-                HorizontalOptions="Center" />
- 
-            <Entry
-                x:Name="nombreEntry"
+                HorizontalOptions="Center"
+                TextColor="Black"/>
+        <Entry x:Name="nombreEntry"
                 Placeholder="Escribe tu nombre aquí"
-                FontSize="16" />
- 
-            <Button
-                x:Name="saludarBtn"
+                FontSize="16"
+                BackgroundColor="#EEEEEE"
+                TextColor="Black"/>
+        <Button x:Name="saludarBtn"
                 Text="Saludar"
                 Clicked="OnSaludarClicked"
-                HorizontalOptions="Center" />
- 
-        </VerticalStackLayout>
-    </ScrollView>
- 
+                HorizontalOptions="Center"
+                BackgroundColor="#512BD4"
+                TextColor="White"/>
+        <Label Text="Waydroid OK"
+                FontSize="12"
+                HorizontalOptions="Center"
+                TextColor="Green"/>
+    </VerticalStackLayout>
 </ContentPage>

@@ -9,6 +9,13 @@ public partial class App : Application
 
 	protected override Window CreateWindow(IActivationState? activationState)
 	{
-		return new Window(new AppShell());
+		try
+		{
+			return new Window(new MainPage());
+		}
+		catch (Exception ex)
+		{
+			return new Window(new ContentPage { Content = new Label { Text = ex.ToString(), TextColor = Colors.Red } });
+		}
 	}
 }

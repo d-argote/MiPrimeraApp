@@ -1,5 +1,19 @@
 bin/
 obj/
 *.user
+*.suo
 .vs/
 .vscode/
+*.DS_Store
+*Thumbs.db
+
+# NuGet
+*.nupkg
+**/packages/*
+
+# User secrets / local
+appsettings.local.json
+secrets.json
+
+# MSBuild SDK resolver temporales
+*.SdkResolver.*.proj.Backup.tmp

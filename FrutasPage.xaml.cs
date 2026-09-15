@@ -1,4 +1,5 @@
 using MiPrimeraApp.Models;
+using MiPrimeraApp.Views;
 
 namespace MiPrimeraApp;
 
@@ -37,7 +38,14 @@ public partial class FrutasPage : ContentPage
             // Deseleccionar visualmente
             ((CollectionView)sender).SelectedItem = null;
 
-            await DisplayAlertAsync(fruta.Nombre + " " + fruta.Emoji, fruta.Descripcion, "Cerrar");
+            // Navegación via AppShell al detalle, pasando la fruta como parámetro
+            // El mismo objeto (referencia) se pasa, así que al editar en el ViewModel del detalle,
+            // el cambio se refleja también en la lista gracias a INotifyPropertyChanged
+            var parametros = new Dictionary<string, object>
+            {
+                ["Fruta"] = fruta
+            };
+            await Shell.Current.GoToAsync(nameof(FrutaDetallePage), parametros);
         }
     }
 }

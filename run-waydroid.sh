@@ -101,3 +101,4 @@ fi
 echo "→ Lanzando..."
 launch_app || exit 1
 echo "✓ Listo. Acceso directo: MiPrimeraApp (buscalo en el launcher)"
+

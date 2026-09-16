@@ -9,7 +9,9 @@ public partial class AppShell : Shell
 		InitializeComponent();
 
 		// Registro de ruta para navegación con Shell
-		// Permite hacer: await Shell.Current.GoToAsync(nameof(FrutaDetallePage), parametros)
+		// El código que te pasaron navega a DetalleFrutaPage, pero tu proyecto tiene FrutaDetallePage.
+		// Registramos ambas para que funcionen las dos:
 		Routing.RegisterRoute(nameof(FrutaDetallePage), typeof(FrutaDetallePage));
+		Routing.RegisterRoute("DetalleFrutaPage", typeof(FrutaDetallePage));
 	}
 }

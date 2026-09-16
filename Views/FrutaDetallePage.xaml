@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:MiPrimeraApp.ViewModels"
              x:Class="MiPrimeraApp.Views.FrutaDetallePage"
+             x:DataType="viewmodels:FrutaDetalleViewModel"
              Title="Detalle de Fruta"
              BackgroundColor="White">
 
@@ -22,7 +24,7 @@
                 </Frame>
 
                 <Label Grid.Row="0" Grid.Column="1"
-                       Text="{Binding Nombre}"
+                       Text="{Binding NombreFruta}"
                        FontSize="26" FontAttributes="Bold"
                        TextColor="White"
                        Margin="16,0,0,0"
@@ -41,13 +43,11 @@
                 <VerticalStackLayout Spacing="8">
                     <Label Text="Descripción actual" FontSize="13" FontAttributes="Bold" TextColor="#512BD4" />
                     <BoxView HeightRequest="1" Color="#EDE7F6"/>
-                    <!-- Este Label está bindeado a DescripcionActual que viene de Fruta.Descripcion.
-                         Al guardar, el ViewModel actualiza Fruta.Descripcion y notifica, así que se ve reflejado aquí automáticamente -->
-                    <Label Text="{Binding DescripcionActual}"
+                    <!-- Bindeado a DescripcionFruta del ViewModel Toolkit. Al Guardar, se actualiza y se ve arriba -->
+                    <Label Text="{Binding DescripcionFruta}"
                            FontSize="15"
                            TextColor="#212121"
                            LineHeight="1.3"/>
-                    <!-- Alternativa directa: Text="{Binding Fruta.Descripcion}" también funcionaría porque Fruta implementa INotifyPropertyChanged -->
                 </VerticalStackLayout>
             </Frame>
 

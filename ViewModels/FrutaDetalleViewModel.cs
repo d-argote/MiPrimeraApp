@@ -95,7 +95,18 @@ public class FrutaDetalleViewModel : INotifyPropertyChanged
 
     private async Task VolverAsync()
     {
-        await Shell.Current.GoToAsync("..");
+        try
+        {
+            await Shell.Current.GoToAsync("..");
+        }
+        catch
+        {
+            // Fallback si fue pusheada via Navigation.PushAsync
+            if (Shell.Current.Navigation.NavigationStack.Count > 1)
+                await Shell.Current.Navigation.PopAsync();
+            else if (Application.Current?.MainPage?.Navigation != null)
+                await Application.Current.MainPage.Navigation.PopAsync();
+        }
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;

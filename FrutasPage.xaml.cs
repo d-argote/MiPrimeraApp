@@ -6,6 +6,7 @@ namespace MiPrimeraApp;
 public partial class FrutasPage : ContentPage
 {
     public List<Fruta> Frutas { get; set; }
+    private bool _isNavigating = false;
 
     public FrutasPage()
     {
@@ -31,21 +32,97 @@ public partial class FrutasPage : ContentPage
         frutasCollection.ItemsSource = Frutas;
     }
 
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        Console.WriteLine("[FrutasPage] OnAppearing");
+        // Auto-navegación de prueba: si en 3 segundos no se ha navegado, navegar automáticamente a la primera fruta para probar Shell
+        // Esto ayuda a diagnosticar si el problema es el tap o la navegación
+        await Task.Delay(3000);
+        if (! _isNavigating && Frutas.Count > 0)
+        {
+            Console.WriteLine("[FrutasPage] Auto-navegación de prueba a " + Frutas[0].Nombre);
+            // Solo si sigue en esta página (evitar doble)
+            if (Shell.Current.CurrentPage == this || Navigation.NavigationStack.LastOrDefault() == this)
+            {
+                await NavegarADetalleAsync(Frutas[0]);
+            }
+        }
+    }
+
     private async void OnFrutaSeleccionada(object sender, SelectionChangedEventArgs e)
     {
-        if (e.CurrentSelection.FirstOrDefault() is Fruta fruta)
+        try
         {
-            // Deseleccionar visualmente
-            ((CollectionView)sender).SelectedItem = null;
+            Console.WriteLine($"[FrutasPage] SelectionChanged fired, count={e.CurrentSelection.Count}");
+            if (e.CurrentSelection.FirstOrDefault() is Fruta fruta)
+            {
+                Console.WriteLine($"[FrutasPage] Fruta seleccionada via SelectionChanged: {fruta.Nombre}");
+                // Deseleccionar visualmente antes de navegar
+                ((CollectionView)sender).SelectedItem = null;
+                await NavegarADetalleAsync(fruta);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"[FrutasPage] ERROR navegación SelectionChanged: {ex}");
+            await DisplayAlertAsync("Error navegación", ex.ToString(), "OK");
+        }
+    }
 
-            // Navegación via AppShell al detalle, pasando la fruta como parámetro
-            // El mismo objeto (referencia) se pasa, así que al editar en el ViewModel del detalle,
-            // el cambio se refleja también en la lista gracias a INotifyPropertyChanged
+    private async void OnFrutaTapped(object sender, TappedEventArgs e)
+    {
+        try
+        {
+            // El sender es el Frame, su BindingContext es la Fruta
+            if ((sender as BindableObject)?.BindingContext is Fruta fruta)
+            {
+                Console.WriteLine($"[FrutasPage] Fruta tapeada via TapGesture: {fruta.Nombre}");
+                await NavegarADetalleAsync(fruta);
+            }
+            else if (e.Parameter is Fruta frutaParam)
+            {
+                await NavegarADetalleAsync(frutaParam);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"[FrutasPage] ERROR navegación Tap: {ex}");
+            await DisplayAlertAsync("Error navegación", ex.ToString(), "OK");
+        }
+    }
+
+    private async Task NavegarADetalleAsync(Fruta fruta)
+    {
+        if (_isNavigating) return;
+        _isNavigating = true;
+        try
+        {
             var parametros = new Dictionary<string, object>
             {
                 ["Fruta"] = fruta
             };
-            await Shell.Current.GoToAsync(nameof(FrutaDetallePage), parametros);
+            Console.WriteLine($"[FrutasPage] Navegando a {nameof(FrutaDetallePage)} via Shell con fruta {fruta.Nombre}...");
+            try
+            {
+                await Shell.Current.GoToAsync(nameof(FrutaDetallePage), parametros);
+                Console.WriteLine($"[FrutasPage] Shell.GoToAsync OK");
+            }
+            catch (Exception shellEx)
+            {
+                Console.WriteLine($"[FrutasPage] Shell.GoToAsync FALLÓ: {shellEx} -> fallback Navigation.PushAsync");
+                // Fallback por si la ruta de Shell falla (ej. TabBar)
+                var page = new FrutaDetallePage();
+                page.Fruta = fruta;
+                await Navigation.PushAsync(page);
+                Console.WriteLine($"[FrutasPage] fallback PushAsync OK");
+            }
+        }
+        finally
+        {
+            // Pequeño delay para evitar doble tap
+            await Task.Delay(500);
+            _isNavigating = false;
         }
     }
 }

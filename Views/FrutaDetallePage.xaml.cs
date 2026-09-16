@@ -18,16 +18,24 @@ public partial class FrutaDetallePage : ContentPage
 
     // Esta propiedad es invocada automáticamente por Shell cuando navegas con:
     // await Shell.Current.GoToAsync("FrutaDetallePage", new Dictionary<string, object> { ["Fruta"] = fruta });
-    public Fruta Fruta
+    public Fruta? Fruta
     {
+        get => _viewModel.Fruta;
         set
         {
             if (value != null)
             {
+                Console.WriteLine($"[FrutaDetallePage] Recibida fruta: {value.Nombre} desc={value.Descripcion}");
                 _viewModel.Fruta = value;
-                // También sincronizar título si quieres
+                // También sincronizar título
                 Title = value.Nombre + " " + value.Emoji;
             }
         }
+    }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        Console.WriteLine($"[FrutaDetallePage] OnAppearing fruta={_viewModel.Fruta?.Nombre}");
     }
 }
